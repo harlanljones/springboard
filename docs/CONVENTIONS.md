@@ -66,6 +66,16 @@ If you need something new in the build, put it on the correct side of the line:
 - Both at once → `scripts/verify.sh`, which is the only place the two toolchains
   meet. Maven itself must not invoke Node (see `AGENTS.md` §Non-negotiable).
 
+## Repo plumbing (do not churn)
+
+| File | Why it exists |
+|---|---|
+| `.mise.toml` | The toolchain pin (Java 25.0.2, Node 26.10.0). `AGENTS.md`'s environment table and CI both depend on it. |
+| `./mvnw`, `.mvn/wrapper/maven-wrapper.properties` | Vendored Maven 3.9.16 — no global Maven needed. The wrapper jar is gitignored; the properties file is committed on purpose. |
+| `.prettierrc.json` | Repo-wide prettier config (100 cols, double quotes); the Hermes formatter hook uses it. |
+| `.gitignore` | Ignores `target/`, `web/node_modules/`, `web/dist/`, `.hermes/skills/`. Never commit build output. |
+| `.gitattributes` | Line-ending/attribute rules from the Initializr skeleton; leave alone unless a real issue appears. |
+
 ## Commits
 
 Conventional Commits: `type(scope)?: subject` with `type` from
