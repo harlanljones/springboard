@@ -68,6 +68,11 @@ If you need something new in the build, put it on the correct side of the line:
 
 ## Commits
 
-One imperative sentence describing the outcome, no prefix ceremony
-(`Serve deep links from the SPA fallback`). Squash noisy work-in-progress before
-sharing; keep the initial scaffold as its own commit.
+Conventional Commits: `type(scope)?: subject` with `type` from
+`build|chore|ci|docs|feat|fix|perf|refactor|revert|style|test`, optional scope,
+subject ≤ 100 chars, imperative mood (`feat(items): add pagination`).
+
+This is not a style preference: the machine-wide `commit-msg` hook
+(`core.hooksPath=~/.config/git/hooks`, from the dotfiles) rejects anything else
+with `not a Conventional Commit`. Keep the initial scaffold as one commit and
+squash noisy work-in-progress before sharing.

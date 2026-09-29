@@ -67,8 +67,10 @@ cd web && bun run build            # -> web/dist
 - Frontend: every HTTP call goes through `web/src/api/client.ts` — no `fetch`
   anywhere else. Components are function components; state is local `useState`.
 - Comments explain *why* (the constraint or bug behind a rule), not *what*.
-- Commits: one imperative sentence describing the outcome
-  (`Package the SPA into the API jar`).
+- Commits: Conventional Commits — `type(scope)?: subject` (`chore: scaffold …`,
+  `feat(items): add pagination`), max 100 chars. This is enforced by the
+  machine-wide `commit-msg` hook wired through `core.hooksPath`, so a plain
+  imperative subject is rejected outright.
 
 ## Non-negotiable
 
