@@ -3,7 +3,7 @@
 #
 # Usage:
 #   ./dev              launch an interactive Hermes session (springboard profile)
-#   ./dev -q "prompt"  one-shot query (args pass straight through to hermes)
+#   ./dev -z "prompt"  one-shot query (all other args pass straight through to hermes)
 #   ./dev setup        bootstrap only: profile, prune, hooks, project skills, trust
 #   ./dev doctor       verify the environment without launching
 #
@@ -106,9 +106,14 @@ ensure_project_skills() {
 }
 
 ensure_trust() {
-  if ! hermes --profile "$PROFILE" skills trust . 2>&1 | grep -q "Already trusted"; then
-    echo "[dev] trusted repo for project skills"
-  fi
+  # Capture first, then match: `hermes ... | grep -q` closes the pipe early and
+  # under `pipefail` that surfaces as a failure, re-printing the notice every run.
+  local out
+  out="$(hermes --profile "$PROFILE" skills trust . 2>&1 || true)"
+  case "$out" in
+    *"Already trusted"*) ;;
+    *) echo "[dev] trusted repo for project skills" ;;
+  esac
   return 0
 }
 
@@ -124,7 +129,10 @@ doctor() {
   local stored
   stored="$(hermes --profile "$PROFILE" config get skills.disabled 2>/dev/null || true)"
   if printf '%s' "$stored" | grep -qE '^[[:space:]]*- '; then
-    echo "ok: skills.disabled holds $(printf '%s' "$stored" | grep -cE '^[[:space:]]*- ') disabled skill(s)"
+    echo "ok: skills.disabled holds $(printf '%s' "$stored" | grep -cE '^[[:space:]]*- ') disabled entry(ies)"
+    local rows
+    rows="$(hermes --profile "$PROFILE" skills list 2>/dev/null | grep -c 'disabled' || true)"
+    echo "ok: skills list shows ${rows:-0} disabled row(s)"
   else
     echo "MISSING: skills.disabled not pruned (run ./dev setup)"; fail=1
   fi
