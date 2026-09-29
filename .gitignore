@@ -1,0 +1,25 @@
+# Backend
+target/
+.mvn/wrapper/maven-wrapper.jar
+
+# Frontend
+web/node_modules/
+web/dist/
+web/node_modules/.tmp/
+
+# Hermes (per-machine, created by ./dev)
+.hermes/skills/
+
+# Tooling
+.mise.local.toml
+.vscode/
+.idea/
+*.iml
+.settings/
+.classpath
+.project
+.apt_generated
+.factorypath
+.springBeans
+.sts4-cache
+*.log

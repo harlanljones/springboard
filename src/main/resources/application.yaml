@@ -1,0 +1,16 @@
+spring:
+  application:
+    name: springboard
+  # Errors are RFC 9457 problem details (application/problem+json), not Boot's legacy map.
+  mvc:
+    problemdetails:
+      enabled: true
+
+server:
+  port: 8080
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info

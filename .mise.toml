@@ -1,0 +1,5 @@
+[tools]
+# Repo-local toolchain pins — the same versions CI and your machine use.
+# Spring Boot 4.1.x supports Java 17–26, so 25 LTS is the newest in-matrix LTS.
+java = "25.0.2"
+node = "26.10.0"
